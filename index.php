@@ -7,8 +7,11 @@ require_once "core/view.php";
 require_once "models/user.php";
 define('APPLICATION_PATH', __DIR__.'/');
 // /users/test
-
-$routes = explode('/', $_SERVER['REQUEST_URI']);
+if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+    $routes = explode('/', $_SERVER['REQUEST_URI']);
+} else {
+    $routes = $argv;
+}
 
 $controller_name = "Main";
 $action_name = 'index';
