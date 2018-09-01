@@ -1,0 +1,6 @@
+Composer.
+SwiftMailer - отправка писем.
+Шаблонизатор Twig.
+Парсинг HTML (Symfony Crawler).
+Symfony FileSystem.
+Carbon - работа со временем.

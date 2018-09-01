@@ -2,7 +2,13 @@
 
 namespace App;
 
-class Main extends MainController
+use Carbon\Carbon;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
+use Symfony\Component\Filesystem\Filesystem;
+
+class Libs extends MainController
 {
     public function index()
     {
@@ -16,19 +22,19 @@ class Main extends MainController
 //            ->subMonth(2)
 //            ->addYear()
 //            ->addHour()
-            ->subMinutes(15)
+            ->subMinute(30)
         ;
 //        setlocale(LC_TIME, 'German');
         Carbon::setLocale('ru');
 //
 //        echo Carbon::now()->formatLocalized('%A %d %B %Y');
-        echo $davno->diffForHumans(Carbon::now()->addHour());
+        echo $davno->diffForHumans(Carbon::now());
     }
 
     public function crawler()
     {
         $html = file_get_contents('https://bash.im');
-        $crawler = new Crawler($html);
+        $crawler = new \Symfony\Component\DomCrawler\Crawler($html);
         $parsedContent = $crawler->filter('.quote .id');
         $quotes = [];
         foreach ($parsedContent as $parsed) {
@@ -47,7 +53,7 @@ class Main extends MainController
         $message = (new Swift_Message('Subj'))
             ->setFrom(['sadasddddddddddddddd111@mail.ru' => 'sadasddddddddddddddd111'])
             ->setTo(['itvrd2@yandex.ru' => 'name'])
-            ->attach(\Swift_Attachment::fromPath(APPLICATION_PATH.'/../debug')->setFilename('test'))
+//            ->attach(\Swift_Attachment::fromPath(APPLICATION_PATH.'/../debug')->setFilename('test'))
             ->setBody('Privet')
         ;
         $result = $mailer->send($message);
@@ -55,19 +61,19 @@ class Main extends MainController
     }
     public function twig()
     {
-        $this->view->twigLoad('test', ['test' => 'asd', 'isTest' => true]);
+        $this->view->twigLoad('test2', ['test' => 'asd', 'isTest' => true]);
 //        $this->view->render('test', ['test' => 'asd', 'isTest' => true]);
     }
     public function fs()
     {
         $fs = new Filesystem();
         $fs->mkdir(APPLICATION_PATH.'testdir');
-        $fs->touch(APPLICATION_PATH.'test');
-        $fs->exists(APPLICATION_PATH.'test');
-        $fs->copy(APPLICATION_PATH. 'test', APPLICATION_PATH. 'test2');
+        $fs->touch(APPLICATION_PATH.'test123');
+        $fs->exists(APPLICATION_PATH.'test123');
+        $fs->copy(APPLICATION_PATH. 'test123', APPLICATION_PATH. 'test2');
 //
         $fs->remove(APPLICATION_PATH.'testdir');
-        $fs->remove(APPLICATION_PATH.'test');
+        $fs->remove(APPLICATION_PATH.'test123');
         $fs->remove(APPLICATION_PATH.'test2');
         echo 'ALL DONE';
     }
